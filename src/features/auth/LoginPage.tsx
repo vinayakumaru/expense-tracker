@@ -38,7 +38,7 @@ export default function LoginPage() {
   };
 
   return (
-    <Box display="grid" placeItems="center" height="calc(100vh - 64px)">
+    <Box display="grid" justifyContent={'center'} alignItems="center" height={"100%"}>
       <Paper sx={{ p: 4, width: '100%', maxWidth: 380 }}>
         <Typography variant="h5" mb={2} component="h1" align="center">
           Sign in

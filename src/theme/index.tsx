@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useMemo, useState } from 'react';
 import { createTheme, PaletteMode, Theme } from '@mui/material';
-import { teal, brown } from '@mui/material/colors';
+import { getDesignTokens } from './theme';
 
 interface ModeCtx {
   mode: PaletteMode;
@@ -15,20 +15,7 @@ export const ColorModeProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   const toggle = () => setMode((prev) => (prev === 'light' ? 'dark' : 'light'));
 
-  const theme = useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode,
-          primary: teal,
-          secondary: brown,
-        },
-        typography: {
-          fontFamily: 'Roboto, sans-serif',
-        },
-      }),
-    [mode],
-  );
+  const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
 
   return (
     <ColorModeContext.Provider value={{ mode, toggle, theme }}>
