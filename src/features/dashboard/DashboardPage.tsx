@@ -8,6 +8,7 @@ import TodayIcon from '@mui/icons-material/Today';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import CategoryIcon from '@mui/icons-material/Category';
 import NumbersIcon from '@mui/icons-material/Numbers';
+import WalletIcon from '@mui/icons-material/Wallet';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AF19FF'];
 
@@ -53,6 +54,7 @@ export default function DashboardPage() {
       totalCount: expenses.length,
       pieData,
       dailySpend,
+      totalAmountInWallet: expenses.reduce((acc, e) => acc + (e.amountToWallet || 0), 0),
     };
   }, [expenses]);
   
@@ -65,17 +67,44 @@ export default function DashboardPage() {
       <Typography variant="h4" gutterBottom>Dashboard</Typography>
       <Grid container spacing={3}>
         {/* Summary Cards */}
-        <Grid item xs={12} sm={6} md={3}>
-          <SummaryCard title="Today's Spend" value={`$${stats.todaysSpend.toFixed(2)}`} icon={<TodayIcon />} color="info.main" />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <SummaryCard title="This Month" value={`$${stats.thisMonthSpend.toFixed(2)}`} icon={<CalendarMonthIcon />} color="success.main" />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <SummaryCard title="Top Category" value={stats.topCategory} icon={<CategoryIcon />} color="warning.main" />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <SummaryCard title="Total Expenses" value={stats.totalCount} icon={<NumbersIcon />} color="error.main" />
+        <Grid item xs={12}>
+        <Box display="flex" gap={3} flexWrap="nowrap" width="100%">
+            <SummaryCard
+            title="Today's Spend"
+            value={`$${stats.todaysSpend.toFixed(2)}`}
+            icon={<TodayIcon />}
+            color="info.main"
+            sx={{ flex: 1, minWidth: 0 }}
+            />
+            <SummaryCard
+            title="This Month"
+            value={`$${stats.thisMonthSpend.toFixed(2)}`}
+            icon={<CalendarMonthIcon />}
+            color="success.main"
+            sx={{ flex: 1, minWidth: 0 }}
+            />
+            <SummaryCard
+            title="Top Category"
+            value={stats.topCategory}
+            icon={<CategoryIcon />}
+            color="warning.main"
+            sx={{ flex: 1, minWidth: 0 }}
+            />
+            <SummaryCard
+            title="Total Expenses"
+            value={stats.totalCount}
+            icon={<NumbersIcon />}
+            color="error.main"
+            sx={{ flex: 1, minWidth: 0 }}
+            />
+            <SummaryCard
+            title="My Wallet"
+            value={`$${stats.totalAmountInWallet.toFixed(2)}`}
+            icon={<WalletIcon />}
+            color="primary.main"
+            sx={{ flex: 1, minWidth: 0 }}
+            />
+        </Box>
         </Grid>
 
         {/* Charts */}

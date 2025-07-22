@@ -1,0 +1,18 @@
+.dropDownContainer select {
+    padding: 8px 32px 8px 16px; /* Increased right padding for arrow space */
+  font-size: 18px;
+  border: 1px solid #bdbdbd;
+  border-radius: 6px;
+  background: #f9f9f9;
+  color: #333;
+  /* outline: none; */
+  margin-right: 12px;
+  transition: border 0.2s;
+  appearance: none; /* Remove default arrow for custom styling if needed */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,<svg width='16' height='16' fill='gray' xmlns='http://www.w3.org/2000/svg'><path d='M4 6l4 4 4-4'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px 16px;
+}

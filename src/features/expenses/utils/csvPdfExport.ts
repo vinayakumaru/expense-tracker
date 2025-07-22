@@ -20,8 +20,15 @@ export const exportCSV = (expenses: Expense[]) => {
 export const exportPDF = (expenses: Expense[]) => {
   const doc = new jsPDF();
   autoTable(doc, {
-    head: [['Date', 'Category', 'Description', 'Amount ($)', 'Payment Mode']],
-    body: expenses.map((e) => [e.date, e.category, e.description, e.amount.toFixed(2), e.paymentMode]),
+    head: [['Date', 'Category', 'Description', 'Amount ($)', 'Amount To Wallet', 'Payment Mode']],
+    body: expenses.map((e) => [
+        e.date,
+        e.category,
+        e.description,
+        e.amount.toFixed(2),
+        e.amountToWallet !== undefined ? e.amountToWallet.toFixed(2) : '',
+        e.paymentMode
+    ]),
     startY: 20,
     didDrawPage: (data) => {
         doc.setFontSize(20);

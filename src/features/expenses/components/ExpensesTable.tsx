@@ -8,9 +8,11 @@ import { useExpenses, useDeleteExpense } from '@/hooks/useExpenses';
 
 interface ExpensesTableProps {
   onEdit: (expense: Expense) => void;
+  year: number;
+  month: number;
 }
 
-export default function ExpensesTable({ onEdit }: ExpensesTableProps) {
+export default function ExpensesTable({ onEdit, year, month}: ExpensesTableProps) {
   const { data: expenses = [], isLoading, isError } = useExpenses();
   const deleteExpense = useDeleteExpense();
   const [page, setPage] = useState(0);
@@ -38,12 +40,18 @@ export default function ExpensesTable({ onEdit }: ExpensesTableProps) {
               <TableCell>Category</TableCell>
               <TableCell>Description</TableCell>
               <TableCell align="right">Amount</TableCell>
+              <TableCell align="right">Amount To Wallet</TableCell>
               <TableCell>Payment Mode</TableCell>
               <TableCell align="center">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {expenses
+              .filter(
+                (row) =>
+                  dayjs(row.date).year() === year &&
+                  dayjs(row.date).month() === month
+              )
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
@@ -51,6 +59,7 @@ export default function ExpensesTable({ onEdit }: ExpensesTableProps) {
                   <TableCell>{row.category}</TableCell>
                   <TableCell>{row.description}</TableCell>
                   <TableCell align="right">{`$${row.amount.toFixed(2)}`}</TableCell>
+                  <TableCell align="right">{`$${row.amountToWallet?.toFixed(2) ?? '-'}`}</TableCell>
                   <TableCell>{row.paymentMode}</TableCell>
                   <TableCell align="center">
                     <IconButton size="small" onClick={() => onEdit(row)}>
@@ -68,7 +77,12 @@ export default function ExpensesTable({ onEdit }: ExpensesTableProps) {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={expenses.length}
+        count={expenses
+              .filter(
+                (row) =>
+                  dayjs(row.date).year() === year &&
+                  dayjs(row.date).month() === month
+              ).length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
