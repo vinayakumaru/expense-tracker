@@ -88,7 +88,8 @@ mock.onPut(/\/expenses\/\w+/).reply(({ url, data }) => {
   const index = EXPENSES.findIndex((e) => e.id === id);
   if (index === -1) return [404, { message: 'Expense not found' }];
   
-  EXPENSES[index] = { ...EXPENSES[index], ...JSON.parse(data) };
+const updatedData = { ...JSON.parse(data), amountToWallet: computeValueToAddToWallet(JSON.parse(data).amount) };
+EXPENSES[index] = { ...EXPENSES[index], ...updatedData };
   return [200, EXPENSES[index]];
 });
 
