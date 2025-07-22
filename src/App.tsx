@@ -9,6 +9,7 @@ import LoginPage from '@/features/auth/LoginPage';
 import DashboardPage from '@/features/dashboard/DashboardPage';
 import ExpensesPage from '@/features/expenses/pages/ExpensesPage';
 import CalendarPage from '@/features/calendar/CalendarPage';
+import ChatPage from '@/features/chat/ChatPage';
 import ExportPage from '@/features/export/ExportPage';
 
 export default function App() {
@@ -25,6 +26,7 @@ export default function App() {
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/expenses" element={<ExpensesPage />} />
               <Route path="/calendar" element={<CalendarPage />} />
+              <Route path="/chat" element={<ChatPage />} />
               <Route path="/export" element={<ExportPage />} />
             </Route>
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
