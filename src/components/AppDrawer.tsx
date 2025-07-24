@@ -5,6 +5,7 @@ import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import DownloadIcon from '@mui/icons-material/Download';
 import ChatIcon from '@mui/icons-material/Chat';
+import AutoAwesome from '@mui/icons-material/AutoAwesome';
 import { useAuth } from '@/hooks/useAuth';
 
 const drawerWidth = 240;
@@ -14,6 +15,7 @@ const navItems = [
   { text: 'Expenses', path: '/expenses', icon: <ReceiptLongIcon /> },
   { text: 'Calendar', path: '/calendar', icon: <CalendarMonthIcon /> },
   { text: 'Chat', path: '/chat', icon: <ChatIcon /> },
+  { text: 'Fin Mithra Advisor', path: '/fin-mithra-advisor', icon: <AutoAwesome /> },
   { text: 'Export', path: '/export', icon: <DownloadIcon /> },
 ];
 
