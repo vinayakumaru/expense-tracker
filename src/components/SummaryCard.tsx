@@ -8,24 +8,30 @@ interface SummaryCardProps {
   color?: string;
 }
 
-export default function SummaryCard({ title, value, icon, color = 'primary.main' }: SummaryCardProps) {
-  return (
-    <Card elevation={2}>
-      <CardContent>
-        <Box display="flex" alignItems="center" justifyContent="space-between">
-          <Box>
-            <Typography color="text.secondary" gutterBottom>
-              {title}
-            </Typography>
-            <Typography variant="h5" component="div">
-              {value}
-            </Typography>
-          </Box>
-          <Box sx={{ color }}>
-            {React.cloneElement(icon, { sx: { fontSize: 40 }})}
-          </Box>
-        </Box>
-      </CardContent>
-    </Card>
-  );
+export default function SummaryCard({
+    title,
+    value,
+    icon,
+    color = 'primary.main',
+    sx,
+}: SummaryCardProps & { sx?: object }) {
+    return (
+        <Card elevation={2} sx={sx}>
+            <CardContent>
+                <Box display="flex" alignItems="center" justifyContent="space-between">
+                    <Box>
+                        <Typography color="text.secondary" gutterBottom>
+                            {title}
+                        </Typography>
+                        <Typography variant="h5" component="div">
+                            {value}
+                        </Typography>
+                    </Box>
+                    <Box sx={{ color }}>
+                        {React.cloneElement(icon, { sx: { fontSize: 40 } })}
+                    </Box>
+                </Box>
+            </CardContent>
+        </Card>
+    );
 }
