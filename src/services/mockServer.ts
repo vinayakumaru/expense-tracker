@@ -41,7 +41,7 @@ mock.onPut(/\/expenses\/\w+/).reply(({ url, data }) => {
   const id = url!.split('/').pop();
   const index = EXPENSES.findIndex((e) => e.id === id);
   if (index === -1) return [404, { message: 'Expense not found' }];
-  
+
   EXPENSES[index] = { ...EXPENSES[index], ...JSON.parse(data) };
   return [200, EXPENSES[index]];
 });
@@ -65,6 +65,7 @@ mock.onPost('/chat/transaction').reply(({ data }) => {
     return [200, {
       text: 'Here are your top 5 expenses:',
       data: topExpenses,
+      graphType: 'bar',
     }];
   }
 
@@ -75,6 +76,22 @@ mock.onPost('/chat/transaction').reply(({ data }) => {
     return [200, {
       text: `You have spent a total of $${total.toFixed(2)} on food.`,
       data: foodExpenses.map(e => ({ name: e.description, value: e.amount })),
+      graphType: 'bar',
+    }];
+  }
+
+  if (query.toLowerCase().includes('category')) {
+    const categoryTotals = EXPENSES.reduce((acc, e) => {
+      acc[e.category] = (acc[e.category] || 0) + e.amount;
+      return acc;
+    }, {} as Record<string, number>);
+
+    const pieData = Object.entries(categoryTotals).map(([name, value]) => ({ name, value: Number(value.toFixed(2)) }));
+
+    return [200, {
+      text: 'Here is a breakdown of your expenses by category:',
+      data: pieData,
+      graphType: 'pie',
     }];
   }
 

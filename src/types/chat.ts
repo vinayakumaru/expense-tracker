@@ -6,4 +6,5 @@ export interface ChatDataPoint {
 export interface ChatResponse {
   text: string;
   data?: ChatDataPoint[];
+  graphType?: 'bar' | 'pie';
 }
