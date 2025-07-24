@@ -11,11 +11,12 @@ import { useAuth } from '@/hooks/useAuth';
 const drawerWidth = 240;
 
 const navItems = [
-  { text: 'Dashboard', path: '/dashboard', icon: <DashboardIcon /> },
-  { text: 'Expenses', path: '/expenses', icon: <ReceiptLongIcon /> },
+  { text: 'FinAnalyser', path: '/dashboard', icon: <DashboardIcon /> },
+  { text: 'FinTrack', path: '/expenses', icon: <ReceiptLongIcon /> },
   { text: 'Calendar', path: '/calendar', icon: <CalendarMonthIcon /> },
+  { text: 'SchemeSeva', path: '/schemes', icon: <AutoAwesome /> },
   { text: 'Chat', path: '/chat', icon: <ChatIcon /> },
-  { text: 'Fin Mithra Advisor', path: '/fin-mithra-advisor', icon: <AutoAwesome /> },
+  { text: 'Learn & Grow', path: '/fin-mithra-advisor', icon: <AutoAwesome /> },
   { text: 'Export', path: '/export', icon: <DownloadIcon /> },
 ];
 

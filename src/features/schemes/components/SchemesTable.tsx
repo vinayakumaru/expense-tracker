@@ -6,13 +6,13 @@ import dayjs from 'dayjs';
 import { Expense } from '@/types/expense';
 import { useExpenses, useDeleteExpense } from '@/hooks/useExpenses';
 
-interface ExpensesTableProps {
+interface SchemesTableProps {
   onEdit: (expense: Expense) => void;
   year: number;
   month: number;
 }
 
-export default function ExpensesTable({ onEdit, year, month}: ExpensesTableProps) {
+export default function SchemesTable({ onEdit, year, month}: SchemesTableProps) {
   const { data: expenses = [], isLoading, isError } = useExpenses();
   const deleteExpense = useDeleteExpense();
   const [page, setPage] = useState(0);

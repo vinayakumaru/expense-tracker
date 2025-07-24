@@ -15,6 +15,7 @@ export default function AppBar() {
     logout();
     navigate('/login');
   };
+  // const logo = require('../../src/FinMitraLogo.png');
 
   return (
     <MuiAppBar 
@@ -24,8 +25,9 @@ export default function AppBar() {
     >
       <Toolbar>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          Fin Mithra
+          FinMitra
         </Typography>
+        {/* <img src={logo} alt ="" height="10" width="10" /> */}
         <IconButton color="inherit" onClick={toggle}>
           {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
         </IconButton>
