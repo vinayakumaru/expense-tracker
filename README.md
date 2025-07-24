@@ -1,4 +1,4 @@
-# Smart Expense Tracker
+# Fin Mithra
 
 This is a simple expense tracker web application built with React, TypeScript, and Vite.
 

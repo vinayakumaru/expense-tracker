@@ -71,14 +71,14 @@ export default function DashboardPage() {
         <Box display="flex" gap={3} flexWrap="nowrap" width="100%">
             <SummaryCard
             title="Today's Spend"
-            value={`$${stats.todaysSpend.toFixed(2)}`}
+            value={`₹${stats.todaysSpend.toFixed(2)}`}
             icon={<TodayIcon />}
             color="info.main"
             sx={{ flex: 1, minWidth: 0 }}
             />
             <SummaryCard
             title="This Month"
-            value={`$${stats.thisMonthSpend.toFixed(2)}`}
+            value={`₹${stats.thisMonthSpend.toFixed(2)}`}
             icon={<CalendarMonthIcon />}
             color="success.main"
             sx={{ flex: 1, minWidth: 0 }}
@@ -98,8 +98,8 @@ export default function DashboardPage() {
             sx={{ flex: 1, minWidth: 0 }}
             />
             <SummaryCard
-            title="My Wallet"
-            value={`$${stats.totalAmountInWallet.toFixed(2)}`}
+            title="My Coin Nest"
+            value={`₹${stats.totalAmountInWallet.toFixed(2)}`}
             icon={<WalletIcon />}
             color="primary.main"
             sx={{ flex: 1, minWidth: 0 }}
@@ -116,7 +116,7 @@ export default function DashboardPage() {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="date" />
                 <YAxis />
-                <Tooltip formatter={(value: number) => `$${value.toFixed(2)}`} />
+                <Tooltip formatter={(value: number) => `₹${value.toFixed(2)}`} />
                 <Legend />
                 <Line type="monotone" dataKey="total" stroke="#8884d8" activeDot={{ r: 8 }} />
               </LineChart>
@@ -133,7 +133,7 @@ export default function DashboardPage() {
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip formatter={(value: number) => `$${value.toFixed(2)}`} />
+                <Tooltip formatter={(value: number) => `₹${value.toFixed(2)}`} />
                 <Legend />
               </PieChart>
             </ResponsiveContainer>

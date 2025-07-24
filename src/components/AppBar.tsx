@@ -24,7 +24,7 @@ export default function AppBar() {
     >
       <Toolbar>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          Smart Expense Tracker
+          Fin Mithra
         </Typography>
         <IconButton color="inherit" onClick={toggle}>
           {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}

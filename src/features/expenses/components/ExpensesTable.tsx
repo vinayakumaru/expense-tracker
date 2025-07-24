@@ -40,7 +40,7 @@ export default function ExpensesTable({ onEdit, year, month}: ExpensesTableProps
               <TableCell>Category</TableCell>
               <TableCell>Description</TableCell>
               <TableCell align="right">Amount</TableCell>
-              <TableCell align="right">Amount To Wallet</TableCell>
+              <TableCell align="right">Coin Nest</TableCell>
               <TableCell>Payment Mode</TableCell>
               <TableCell align="center">Actions</TableCell>
             </TableRow>
@@ -59,7 +59,7 @@ export default function ExpensesTable({ onEdit, year, month}: ExpensesTableProps
                   <TableCell>{row.category}</TableCell>
                   <TableCell>{row.description}</TableCell>
                   <TableCell align="right">{`$${row.amount.toFixed(2)}`}</TableCell>
-                  <TableCell align="right">{`$${row.amountToWallet?.toFixed(2) ?? '-'}`}</TableCell>
+                  <TableCell align="right">{`₹${row.amountToWallet?.toFixed(2) ?? '-'}`}</TableCell>
                   <TableCell>{row.paymentMode}</TableCell>
                   <TableCell align="center">
                     <IconButton size="small" onClick={() => onEdit(row)}>
