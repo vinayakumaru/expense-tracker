@@ -1,6 +1,10 @@
 import { User } from './user';
 
 export interface AuthResponse {
-  accessToken: string;
   user: User;
+  token: {
+    type: string;
+    token: string;
+    expiresAt?: string;
+  };
 }

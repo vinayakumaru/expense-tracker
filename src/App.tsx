@@ -27,6 +27,7 @@ export default function App() {
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/expenses" element={<ExpensesPage />} />
               <Route path="/calendar" element={<CalendarPage />} />
+              <Route path="/schemes" element={<ExpensesPage />} />
               <Route path="/chat" element={<ChatPage />} />
               <Route path="/fin-mithra-advisor" element={<FinMithraAdvisor />} />
               <Route path="/export" element={<ExportPage />} />

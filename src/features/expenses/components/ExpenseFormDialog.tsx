@@ -4,19 +4,17 @@ import * as yup from 'yup';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Stack, MenuItem } from '@mui/material';
 import { Expense } from '@/types/expense';
 import { useAddExpense, useUpdateExpense } from '@/hooks/useExpenses';
+import { useCategories, useModes } from '@/hooks/useCategoriesAndModes';
 import dayjs from 'dayjs';
 import { useEffect } from 'react';
 
 const expenseSchema = yup.object({
   date: yup.string().required('Date is required'),
   amount: yup.number().typeError('Amount must be a number').positive('Amount must be positive').required('Amount is required'),
-  category: yup.string().required('Category is required'),
+  categoryId: yup.number().required('Category is required').nullable(),
   description: yup.string().required('Description is required'),
-  paymentMode: yup.string().required('Payment mode is required'),
+  modeId: yup.number().required('Payment mode is required').nullable(),
 });
-
-const categories = ['Food', 'Transport', 'Shopping', 'Entertainment', 'Utilities', 'Health', 'Other'];
-const paymentModes = ['Credit Card', 'Debit Card', 'Cash', 'Online Banking'];
 
 interface ExpenseFormDialogProps {
   open: boolean;
@@ -24,24 +22,26 @@ interface ExpenseFormDialogProps {
   expenseToEdit?: Expense | null;
 }
 
-type FormValues = Omit<Expense, 'id'>;
+type FormValues = Omit<Expense, 'id' | 'category' | 'mode' | 'savingsAmount'>;
 
 export default function ExpenseFormDialog({ open, onClose, expenseToEdit }: ExpenseFormDialogProps) {
   const addExpense = useAddExpense();
   const updateExpense = useUpdateExpense();
+  const { data: categories = [] } = useCategories();
+  const { data: modes = [] } = useModes();
 
-  const { control, handleSubmit, reset } = useForm<FormValues>({
+  const { control, handleSubmit, reset } = useForm({
     resolver: yupResolver(expenseSchema),
   });
-  
+
   useEffect(() => {
     if (open) {
-      const defaultValues: FormValues = {
-        date: expenseToEdit?.date || dayjs().format('YYYY-MM-DD'),
+      const defaultValues : FormValues = {
+        date: expenseToEdit?.date ? dayjs(expenseToEdit.date).format('YYYY-MM-DDTHH:mm') : dayjs().format('YYYY-MM-DDTHH:mm'),
         amount: expenseToEdit?.amount || 0,
-        category: expenseToEdit?.category || '',
+        categoryId: expenseToEdit?.category?.id || null,
         description: expenseToEdit?.description || '',
-        paymentMode: expenseToEdit?.paymentMode || '',
+        modeId: expenseToEdit?.mode?.id || null,
       };
       reset(defaultValues);
     }
@@ -50,14 +50,19 @@ export default function ExpenseFormDialog({ open, onClose, expenseToEdit }: Expe
   const handleClose = () => {
     onClose();
   };
-  
+
   const onSubmit = (data: FormValues) => {
+    const payload = {
+      ...data,
+      date: dayjs(data.date).toISOString(),
+    };
+
     if (expenseToEdit) {
-      updateExpense.mutate({ ...data, id: expenseToEdit.id }, {
+      updateExpense.mutate({ ...payload, id: expenseToEdit.id }, {
         onSuccess: handleClose,
       });
     } else {
-      addExpense.mutate(data, {
+      addExpense.mutate(payload, {
         onSuccess: handleClose,
       });
     }
@@ -73,7 +78,7 @@ export default function ExpenseFormDialog({ open, onClose, expenseToEdit }: Expe
               name="date"
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <TextField {...field} type="date" label="Date" error={!!error} helperText={error?.message} InputLabelProps={{ shrink: true }} />
+                <TextField {...field} type="datetime-local" label="Date" error={!!error} helperText={error?.message} InputLabelProps={{ shrink: true }} />
               )}
             />
             <Controller
@@ -84,12 +89,12 @@ export default function ExpenseFormDialog({ open, onClose, expenseToEdit }: Expe
               )}
             />
             <Controller
-              name="category"
+              name="categoryId"
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <TextField {...field} select label="Category" error={!!error} helperText={error?.message}>
                   {categories.map((option) => (
-                    <MenuItem key={option} value={option}>{option}</MenuItem>
+                    <MenuItem key={option.id} value={option.id}>{option.name}</MenuItem>
                   ))}
                 </TextField>
               )}
@@ -102,12 +107,12 @@ export default function ExpenseFormDialog({ open, onClose, expenseToEdit }: Expe
               )}
             />
             <Controller
-              name="paymentMode"
+              name="modeId"
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <TextField {...field} select label="Payment Mode" error={!!error} helperText={error?.message}>
-                   {paymentModes.map((option) => (
-                    <MenuItem key={option} value={option}>{option}</MenuItem>
+                   {modes.map((option) => (
+                    <MenuItem key={option.id} value={option.id}>{option.name}</MenuItem>
                   ))}
                 </TextField>
               )}

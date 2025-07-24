@@ -39,8 +39,8 @@ export default function CalendarPage() {
                   <>
                     <ListItem key={expense.id}>
                       <ListItemText
-                        primary={`${expense.category}: ${expense.description}`}
-                        secondary={`₹${expense.amount.toFixed(2)} - ${expense.paymentMode}`}
+                        primary={`${expense.category?.name || 'Uncategorized'}: ${expense.description}`}
+                        secondary={`₹${expense.amount.toFixed(2)} - ${expense.mode?.name || 'N/A'}`}
                       />
                     </ListItem>
                     {index < filteredExpenses.length - 1 && <Divider />}

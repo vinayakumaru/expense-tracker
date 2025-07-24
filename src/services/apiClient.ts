@@ -1,11 +1,10 @@
 import axios from 'axios';
 
 export const apiClient = axios.create({
-  baseURL: '/api', // intercepted by Axios-Mock-Adapter
-  timeout: 5_000,
+  baseURL: 'http://localhost:3333',
+  timeout: 5000,
 });
 
-// Add Authorization header when JWT present
 apiClient.interceptors.request.use((config) => {
   const token = localStorage.getItem('authToken');
   if (token) {

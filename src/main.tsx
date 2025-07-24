@@ -7,7 +7,6 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 
 import App from './App';
 import { ColorModeProvider, useColorModeTheme } from '@/theme';
-import '@/services/mockServer'; // <-- spin up mock backend
 
 const queryClient = new QueryClient();
 

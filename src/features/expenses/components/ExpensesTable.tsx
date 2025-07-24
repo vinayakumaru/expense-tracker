@@ -4,7 +4,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import dayjs from 'dayjs';
 import { Expense } from '@/types/expense';
-import { useExpenses, useDeleteExpense } from '@/hooks/useExpenses';
+import { useDeleteExpense } from '@/hooks/useExpenses';
+import { useFilteredExpenses } from '@/hooks/useFilteredExpenses';
 
 interface ExpensesTableProps {
   onEdit: (expense: Expense) => void;
@@ -12,8 +13,8 @@ interface ExpensesTableProps {
   month: number;
 }
 
-export default function ExpensesTable({ onEdit, year, month}: ExpensesTableProps) {
-  const { data: expenses = [], isLoading, isError } = useExpenses();
+export default function ExpensesTable({ onEdit, year, month }: ExpensesTableProps) {
+  const { data: expenses = [], isLoading, isError } = useFilteredExpenses(year, month);
   const deleteExpense = useDeleteExpense();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -47,20 +48,15 @@ export default function ExpensesTable({ onEdit, year, month}: ExpensesTableProps
           </TableHead>
           <TableBody>
             {expenses
-              .filter(
-                (row) =>
-                  dayjs(row.date).year() === year &&
-                  dayjs(row.date).month() === month
-              )
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                   <TableCell>{dayjs(row.date).format('MMM D, YYYY')}</TableCell>
-                  <TableCell>{row.category}</TableCell>
+                  <TableCell>{row.category?.name ?? 'N/A'}</TableCell>
                   <TableCell>{row.description}</TableCell>
                   <TableCell align="right">{`₹${row.amount.toFixed(2)}`}</TableCell>
-                  <TableCell align="right">{`₹${row.amountToWallet?.toFixed(2) ?? '-'}`}</TableCell>
-                  <TableCell>{row.paymentMode}</TableCell>
+                  <TableCell align="right">{`₹${row.savingsAmount.toFixed(2)}`}</TableCell>
+                  <TableCell>{row.mode?.name ?? 'N/A'}</TableCell>
                   <TableCell align="center">
                     <IconButton size="small" onClick={() => onEdit(row)}>
                       <EditIcon />
@@ -77,12 +73,7 @@ export default function ExpensesTable({ onEdit, year, month}: ExpensesTableProps
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={expenses
-              .filter(
-                (row) =>
-                  dayjs(row.date).year() === year &&
-                  dayjs(row.date).month() === month
-              ).length}
+        count={expenses.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

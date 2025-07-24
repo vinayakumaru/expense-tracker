@@ -15,15 +15,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async (email: string, password: string) => {
     const { data } = await apiClient.post<AuthResponse>('/auth/login', { email, password });
-    localStorage.setItem('authToken', data.accessToken);
+    localStorage.setItem('authToken', data.token.token);
     setAuthed(true);
   };
 
   const logout = () => {
-    localStorage.removeItem('authToken');
-    setAuthed(false);
+    // We can also make an API call to the backend's /logout endpoint for a more robust logout
+    apiClient.post('/auth/logout').finally(() => {
+        localStorage.removeItem('authToken');
+        setAuthed(false);
+    })
   };
-  
+
   return <AuthContext.Provider value={{ isAuthed, login, logout }}>{children}</AuthContext.Provider>;
 };
 
