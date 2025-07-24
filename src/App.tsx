@@ -9,7 +9,9 @@ import LoginPage from '@/features/auth/LoginPage';
 import DashboardPage from '@/features/dashboard/DashboardPage';
 import ExpensesPage from '@/features/expenses/pages/ExpensesPage';
 import CalendarPage from '@/features/calendar/CalendarPage';
+import ChatPage from '@/features/chat/ChatPage';
 import ExportPage from '@/features/export/ExportPage';
+import FinMithraAdvisor from './features/fin-mithra-advisor/FinMithraAdvisor';
 
 export default function App() {
   return (
@@ -25,6 +27,8 @@ export default function App() {
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/expenses" element={<ExpensesPage />} />
               <Route path="/calendar" element={<CalendarPage />} />
+              <Route path="/chat" element={<ChatPage />} />
+              <Route path="/fin-mithra-advisor" element={<FinMithraAdvisor />} />
               <Route path="/export" element={<ExportPage />} />
             </Route>
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
