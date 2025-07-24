@@ -20,7 +20,7 @@ export const exportCSV = (expenses: Expense[]) => {
 export const exportPDF = (expenses: Expense[]) => {
   const doc = new jsPDF();
   autoTable(doc, {
-    head: [['Date', 'Category', 'Description', 'Amount ($)', 'Coin Nest', 'Payment Mode']],
+    head: [['Date', 'Category', 'Description', 'Amount (₹)', 'Coin Nest', 'Payment Mode']],
     body: expenses.map((e) => [
         e.date,
         e.category,

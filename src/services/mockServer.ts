@@ -8,15 +8,60 @@ const mock = new MockAdapter(apiClient, { delayResponse: 350 });
 
 /* ------------------------------------------------------------------ */
 /* seed                                                               */
-const seedExpenses: Expense[] = [
-  { id: nanoid(), date: dayjs().subtract(0, 'day').format('YYYY-MM-DD'), amount: 25.5, category: 'Food', description: 'Lunch with colleagues', paymentMode: 'Credit Card' },
-  { id: nanoid(), date: dayjs().subtract(1, 'day').format('YYYY-MM-DD'), amount: 42,   category: 'Transport', description: 'Gasoline for car',  paymentMode: 'Debit Card' },
-  { id: nanoid(), date: dayjs().subtract(3, 'day').format('YYYY-MM-DD'), amount: 119,  category: 'Shopping', description: 'Weekly groceries', paymentMode: 'Cash' },
-  { id: nanoid(), date: dayjs().subtract(5, 'day').format('YYYY-MM-DD'), amount: 75, category: 'Entertainment', description: 'Movie tickets', paymentMode: 'Credit Card' },
-  { id: nanoid(), date: dayjs().subtract(10, 'day').format('YYYY-MM-DD'), amount: 250, category: 'Utilities', description: 'Electricity bill', paymentMode: 'Online Banking' },
+const categories = ['Food', 'Transport', 'Shopping', 'Entertainment', 'Utilities'];
+const paymentModes = ['Credit Card', 'Debit Card', 'Cash', 'Online Banking'];
+const descriptions = [
+    'Lunch with colleagues', 'Gasoline for car', 'Weekly groceries', 'Movie tickets', 'Electricity bill',
+    'Dinner at restaurant', 'Train ticket', 'New shoes', 'Concert', 'Water bill',
+    'Breakfast', 'Taxi fare', 'Clothes', 'Museum visit', 'Internet bill'
 ];
 
+// Pre-generated static amounts for each expense (5 per month, 12 months)
+const staticAmounts2025: number[][] = [
+    [45.23, 120.50, 33.10, 78.99, 56.75], // January
+    [67.80, 150.00, 29.99, 88.20, 42.50], // February
+    [110.00, 60.45, 25.30, 99.99, 70.10], // March
+    [55.00, 130.75, 40.20, 85.60, 60.00], // April
+    [75.25, 140.00, 38.50, 92.80, 50.30], // May
+    [80.00, 120.10, 45.60, 77.90, 65.00], // June
+    [95.50, 110.00, 32.40, 89.99, 58.20], // July
+];
+
+function getRandom<T>(arr: T[]): T {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function generateStaticExpenses2025(): Expense[] {
+    const expenses: Expense[] = [];
+    for (let month = 1; month <= staticAmounts2025.length; month++) {
+        for (let i = 0; i < 5; i++) {
+            const amount = staticAmounts2025[month - 1][i];
+            expenses.push({
+                id: nanoid(),
+                date: dayjs(`2025-${month.toString().padStart(2, '0')}-${(i + 1) * 5}`).format('YYYY-MM-DD'),
+                amount,
+                category: getRandom(categories),
+                description: getRandom(descriptions),
+                paymentMode: getRandom(paymentModes),
+                amountToWallet: computeValueToAddToWallet(amount),
+            });
+        }
+    }
+    return expenses;
+}
+
+const seedExpenses: Expense[] = generateStaticExpenses2025();
+
 let EXPENSES = [...seedExpenses];
+
+function computeValueToAddToWallet(amount: number) {
+    amount = Math.abs(amount);
+    if(amount % 10 === 0) {
+        return 0;
+    }
+    let nextRoundedValue = (parseInt((amount / 10).toString()) + 1) * 10;
+    return nextRoundedValue - amount;   
+}
 
 /* ------------------------------------------------------------------ */
 /* -------- AUTH -------- */
@@ -32,6 +77,7 @@ mock.onGet('/expenses').reply(200, EXPENSES);
 
 mock.onPost('/expenses').reply(({ data }) => {
   const payload = JSON.parse(data);
+  payload.amountToWallet = computeValueToAddToWallet(payload.amount);
   const created: Expense = { ...payload, id: nanoid() };
   EXPENSES.unshift(created);
   return [201, created];
@@ -42,7 +88,8 @@ mock.onPut(/\/expenses\/\w+/).reply(({ url, data }) => {
   const index = EXPENSES.findIndex((e) => e.id === id);
   if (index === -1) return [404, { message: 'Expense not found' }];
   
-  EXPENSES[index] = { ...EXPENSES[index], ...JSON.parse(data) };
+const updatedData = { ...JSON.parse(data), amountToWallet: computeValueToAddToWallet(JSON.parse(data).amount) };
+EXPENSES[index] = { ...EXPENSES[index], ...updatedData };
   return [200, EXPENSES[index]];
 });
 
