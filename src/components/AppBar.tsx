@@ -5,6 +5,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useColorModeTheme } from '@/theme';
 import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import FinMitraLogo from "@/assets/FinMitraLogo.png"
 
 export default function AppBar() {
   const { mode, toggle } = useColorModeTheme();
@@ -15,7 +16,6 @@ export default function AppBar() {
     logout();
     navigate('/login');
   };
-  // const logo = require('../../src/FinMitraLogo.png');
 
   return (
     <MuiAppBar 
@@ -24,6 +24,7 @@ export default function AppBar() {
       sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
     >
       <Toolbar>
+        <img src={FinMitraLogo} alt="FinMitra Logo" style={{ width: '40px', height: '40px', marginRight: '1rem' }} />
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
           FinMitra
         </Typography>

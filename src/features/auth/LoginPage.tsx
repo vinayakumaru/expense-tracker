@@ -6,6 +6,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
+import FinMitraLogo from '@/assets/FinMitraLogoFull.png';
 
 const schema = yup.object({
   email: yup.string().email('Must be a valid email').required('Email is required'),
@@ -46,13 +47,14 @@ export default function LoginPage() {
   };
 
   return (
-    <Box display="grid" justifyContent={'center'} alignItems="center" height={"100%"}>
-      <Paper sx={{ p: 4, width: '100%', maxWidth: 380 }}>
-        <Typography variant="h5" mb={2} component="h1" align="center">
+    <Box display="grid" justifyContent={'center'} alignItems="center" marginTop={10}>
+      <Paper sx={{ p: 4, width: '100%', minWidth: 420, maxWidth: 420, textAlign: 'center' }}>
+        <img src={FinMitraLogo} alt="FinMitra Logo" style={{ maxWidth: '150px', marginBottom: '2rem' }} />
+        <Typography variant="h5" mb={1} component="h1">
           Sign in to FinMitra
         </Typography>
-        <Typography variant="body2" color="text.secondary" align="center" mb={3}>
-          Use a seeded account, e.g., `savitha@example.com` and password `password`.
+        <Typography variant="body2" color="text.secondary" mb={4}>
+          Use `savitha@example.com` and `password`.
         </Typography>
         <Stack component="form" spacing={3} onSubmit={handleSubmit(onSubmit)} noValidate>
           {error && <Alert severity="error">{error}</Alert>}
@@ -71,7 +73,7 @@ export default function LoginPage() {
             helperText={errors.password?.message}
             fullWidth
           />
-          <Button type="submit" variant="contained" fullWidth disabled={isSubmitting} size="large">
+          <Button type="submit" variant="contained" fullWidth disabled={isSubmitting} size="large" sx={{ mt: 2 }}>
             {isSubmitting ? 'Signing in…' : 'Login'}
           </Button>
         </Stack>

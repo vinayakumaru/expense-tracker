@@ -66,44 +66,45 @@ export default function DashboardPage() {
     <Box>
       <Typography variant="h4" gutterBottom>Dashboard</Typography>
       <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Box display="flex" gap={3} flexWrap="nowrap" width="100%">
-            <SummaryCard
-              title="Today's Spend"
-              value={`₹${stats.todaysSpend.toFixed(2)}`}
-              icon={<TodayIcon />}
-              color="info.main"
-              sx={{ flex: 1, minWidth: 0 }}
-            />
-            <SummaryCard
-              title="This Month"
-              value={`₹${stats.thisMonthSpend.toFixed(2)}`}
-              icon={<CalendarMonthIcon />}
-              color="success.main"
-              sx={{ flex: 1, minWidth: 0 }}
-            />
-            <SummaryCard
-              title="Top Category"
-              value={stats.topCategory}
-              icon={<CategoryIcon />}
-              color="warning.main"
-              sx={{ flex: 1, minWidth: 0 }}
-            />
-            <SummaryCard
-              title="Total Expenses"
-              value={stats.totalCount}
-              icon={<NumbersIcon />}
-              color="error.main"
-              sx={{ flex: 1, minWidth: 0 }}
-            />
-            <SummaryCard
-              title="My Coin Nest"
-              value={`₹${stats.totalAmountInWallet.toFixed(2)}`}
-              icon={<WalletIcon />}
-              color="primary.main"
-              sx={{ flex: 1, minWidth: 0 }}
-            />
-          </Box>
+        <Grid item xs={12} sm={6} lg={2.4}>
+          <SummaryCard
+            title="Today's Spend"
+            value={`₹${stats.todaysSpend.toFixed(2)}`}
+            icon={<TodayIcon />}
+            color="info.main"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} lg={2.4}>
+          <SummaryCard
+            title="This Month"
+            value={`₹${stats.thisMonthSpend.toFixed(2)}`}
+            icon={<CalendarMonthIcon />}
+            color="success.main"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} lg={2.4}>
+          <SummaryCard
+            title="Top Category"
+            value={stats.topCategory}
+            icon={<CategoryIcon />}
+            color="warning.main"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} lg={2.4}>
+          <SummaryCard
+            title="Total Expenses"
+            value={stats.totalCount}
+            icon={<NumbersIcon />}
+            color="error.main"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} lg={2.4}>
+          <SummaryCard
+            title="My Coin Nest"
+            value={`₹${stats.totalAmountInWallet.toFixed(2)}`}
+            icon={<WalletIcon />}
+            color="primary.main"
+          />
         </Grid>
 
         <Grid item xs={12} md={8}>
@@ -115,7 +116,9 @@ export default function DashboardPage() {
                 <XAxis dataKey="date" />
                 <YAxis />
                 <Tooltip formatter={(value: number) => `₹${value.toFixed(2)}`} />
-                <Legend />
+                <Legend
+                  wrapperStyle={{ marginBottom: '10px' }}
+                />
                 <Line type="monotone" dataKey="total" stroke="#8884d8" activeDot={{ r: 8 }} />
               </LineChart>
             </ResponsiveContainer>
@@ -132,7 +135,9 @@ export default function DashboardPage() {
                   ))}
                 </Pie>
                 <Tooltip formatter={(value: number) => `₹${value.toFixed(2)}`} />
-                <Legend />
+                <Legend
+                  wrapperStyle={{ marginBottom: '10px' }}
+                />
               </PieChart>
             </ResponsiveContainer>
           </Paper>
