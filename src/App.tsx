@@ -12,6 +12,7 @@ import CalendarPage from '@/features/calendar/CalendarPage';
 import ChatPage from '@/features/chat/ChatPage';
 import ExportPage from '@/features/export/ExportPage';
 import FinMithraAdvisor from './features/fin-mithra-advisor/FinMithraAdvisor';
+import SchemesPage from './features/schemes/SchemesPage';
 
 export default function App() {
   return (
@@ -27,7 +28,7 @@ export default function App() {
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/expenses" element={<ExpensesPage />} />
               <Route path="/calendar" element={<CalendarPage />} />
-              <Route path="/schemes" element={<ExpensesPage />} />
+              <Route path="/schemes" element={<SchemesPage />} />
               <Route path="/chat" element={<ChatPage />} />
               <Route path="/fin-mithra-advisor" element={<FinMithraAdvisor />} />
               <Route path="/export" element={<ExportPage />} />
